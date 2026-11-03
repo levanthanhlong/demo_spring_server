@@ -16,12 +16,18 @@ java {
 
 repositories {
 	mavenCentral()
+	maven("https://central.sonatype.com/repository/maven-snapshots/")
 }
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation(files(findProperty("cshieldSdkJar") ?: "libs/cshield-sdk-2.0.0.jar"))
-	implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+	val cshieldSdkJar = findProperty("cshieldSdkJar")
+	if (cshieldSdkJar != null) {
+		implementation(files(cshieldSdkJar))
+		implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+	} else {
+		implementation("io.github.levanthanhlong:cshield-spring-sdk:1.0.0-SNAPSHOT")
+	}
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
