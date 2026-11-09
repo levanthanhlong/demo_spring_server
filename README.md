@@ -53,7 +53,7 @@ c-shield:
   realm:
     customer-code: ${CSHIELD_CUSTOMER_CODE:CMCCS}
     application-id: ${CSHIELD_APPLICATION_ID:cshield-embedded-sample}
-    environment: DEV
+    environment: ${CSHIELD_ENVIRONMENT:DEV}
   routes:
     - path: /verify-otp
       methods: [POST]
@@ -91,12 +91,13 @@ Realm thiếu trường hoặc `environment` sai → app dừng ngay lúc khởi
 | `CSHIELD_PRIVATE_KEY` | **Có** | Base64 của file PEM private key: `base64 -w 0 private.pem` (macOS: `base64 -i private.pem`) |
 | `CSHIELD_CUSTOMER_CODE` | Không | `CMCCS` |
 | `CSHIELD_APPLICATION_ID` | Không | `cshield-embedded-sample` |
+| `CSHIELD_ENVIRONMENT` | Không | `DEV`. Nhận `DEV`, `STAGING`, `PROD`, không phân biệt hoa thường. Giá trị khác thì app dừng lúc khởi động |
 | `CSHIELD_MIN_TRUST_LEVEL` | Không | `L1` (áp cho `/verify-otp`) |
 | `CSHIELD_SENSITIVE_MIN_TRUST` | Không | `L4` (áp cho `/payment`, `/transfer`) |
 | `CSHIELD_SENSITIVE_MAX_AGE` | Không | `300` giây (độ tươi trust của `/transfer`) |
 | `PORT` | Không | `8080` |
 
-Environment của realm cố định `DEV` trong `application.yml`, giống demo Node.
+Environment của realm lấy từ `CSHIELD_ENVIRONMENT`. Ví dụ `PROD` thì realm là `cmccs:cshield-embedded-sample:prod`, token phải có `aud` là `tenant:cmccs:cshield-embedded-sample:prod`. Giá trị này phải khớp với environment phía app.
 
 Private key phải là cặp với `server_public.pem` nhúng trong app mobile; sai cặp thì app báo `Invalid response's cs-signature`. **Không commit private key vào repo này** (repo public).
 

@@ -14,7 +14,7 @@ c-shield:
   realm:
     customer-code: ${CSHIELD_CUSTOMER_CODE:CMCCS}
     application-id: ${CSHIELD_APPLICATION_ID:cshield-embedded-sample}
-    environment: DEV
+    environment: ${CSHIELD_ENVIRONMENT:DEV}
   routes:
     - path: /verify-otp
       methods: [POST]
