@@ -163,6 +163,7 @@ Body lỗi: `{"success":false,"code":"...","message":"..."}`.
 
 ---
 
+
 ## 7. Nâng cấp từ SDK v1
 
 | v1 | v2 |
